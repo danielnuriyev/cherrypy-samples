@@ -27,17 +27,19 @@ if __name__ == '__main__':
     # method test of the controller object will handle url: http://<ip or host>:port/test
     routes.connect('test','/test', controller=controller, action='test')
 
+    # setting the port
+    cherrypy.config.update({
+            'server.socket_host': '0.0.0.0',    # listens to all IPs and domain names. Without this will only respond to 127.0.0.1 and localhost
+            'server.socket_port': port,
+        })
+
     # telling cherrypy to use routes
     conf = {
-        '/' :
-        {
-            'request.dispatch' : routes,
-        },
-    }
-
-    # setting the port
-    cherrypy.config.update({'server.socket_port': port})
+        '/':{
+            'request.dispatch' : routes
+        }
+        }
 
     # starting the server with the configuration
-    cherrypy.quickstart(controller,'',config=conf)
+    cherrypy.quickstart(controller, '', config = conf)
 
