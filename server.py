@@ -6,8 +6,8 @@ from cherrypy.lib import auth_basic
 
 # this is an http server that maps urls to methods that handle them
 
+# handles basic http authentication
 def validate_password(realm, username, password):
-
     if username == 'hacker':
         return True
     else:
@@ -33,9 +33,10 @@ if __name__ == '__main__':
     routes = cherrypy.dispatch.RoutesDispatcher()
     routes.mapper.explicit = True
 
-    # method test of the controller object will handle url: http://<ip or host>:port/test
-    routes.connect('test',  '/test',    controller=controller, action='test')
-    routes.connect('admin', '/admin',   controller=controller, action='test')
+    # tests if the controller object will handle url: http://<ip or host>:port/test
+    routes.connect('test',  '/test',                controller=controller, action='test')
+    # tests the basic http authentication: http://<ip or host>:port/restricted
+    routes.connect('restricted', '/restricted',     controller=controller, action='test')
 
     # setting the port
     cherrypy.config.update({
