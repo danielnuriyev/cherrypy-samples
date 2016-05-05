@@ -2,7 +2,16 @@ __author__ = 'daniel.nuriyev'
 
 import cherrypy
 
+from cherrypy.lib import auth_basic
+
 # this is an http server that maps urls to methods that handle them
+
+def validate_password(realm, username, password):
+
+    if username == 'hacker':
+        return True
+    else:
+        return False
 
 # controller for handling http requests
 class Controller(object):
@@ -25,7 +34,8 @@ if __name__ == '__main__':
     routes.mapper.explicit = True
 
     # method test of the controller object will handle url: http://<ip or host>:port/test
-    routes.connect('test','/test', controller=controller, action='test')
+    routes.connect('test',  '/test',    controller=controller, action='test')
+    routes.connect('admin', '/admin',   controller=controller, action='test')
 
     # setting the port
     cherrypy.config.update({
@@ -37,8 +47,13 @@ if __name__ == '__main__':
     conf = {
         '/':{
             'request.dispatch' : routes
+        },
+        '/admin':{
+           'tools.auth_basic.on': True,
+           'tools.auth_basic.realm': 'localhost',
+           'tools.auth_basic.checkpassword': validate_password
         }
-        }
+    }
 
     # starting the server with the configuration
     cherrypy.quickstart(controller, '', config = conf)
