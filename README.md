@@ -1,6 +1,9 @@
 The goal of this repo is to demostrate all possible uses of cherrypy:
+
+    read port on command line
+
     https
-    authentication
+    authentication (basic, digest..)
     handling multiple ips/host names/domain names
     url mapping
     handling url params
@@ -14,6 +17,8 @@ The goal of this repo is to demostrate all possible uses of cherrypy:
     load balancing
     serving static files
     what else have i missed ?
+    serving a dinamic image
+    base64 image in json
 
 The reason is that although cherrypy is the simplest and best documented python server, it took me a while to figure these out.
 So now I am sharing
